@@ -1,7 +1,7 @@
 :root {
-    --blue-light: #90CAF9; /* Bleu très clair, ciel */
-    --blue-mid: #64B5F6; /* Bleu moyen */
-    --blue-dark: #2196F3; /* Bleu foncé pour le texte/boutons */
+    --blue-light: #90CAF9;
+    --blue-mid: #64B5F6;
+    --blue-dark: #2196F3;
     --white: #FFFFFF;
     --blue-dark-dark: #072b73;
     --blue-baby:#00BFFF;
