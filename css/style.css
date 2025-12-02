@@ -72,7 +72,7 @@ main {
     /* display: flex;
     gap: 30px;
     margin-bottom: 40px; */
-    flex-grow: 1; /* C'est bon pour prendre l'espace restant */
+    flex-grow: 1;
     display: flex;
     gap: 30px; 
     align-items: flex-start;
@@ -106,14 +106,14 @@ main {
     min-height: 270px;
 }
 
-.titre-saisie {
+/* .titre-saisie {
     color: var(--blue-dark-dark);
     font-size: 20px;
     margin-top: -30px;
     padding: 0;
     position: relative;
     z-index: 2; 
-}
+} */
 
 #saisie-texte {
     width: 100%;
@@ -216,7 +216,7 @@ main {
 footer {
     padding: 15px;
     text-align: center;
-    color: var(--blue-dark-dark);
+    color: white;
     font-size: 14px;
 }
 
