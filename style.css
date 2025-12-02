@@ -1,0 +1,245 @@
+/* Variables pour les couleurs */
+:root {
+    --blue-light: #90CAF9; /* Bleu très clair, ciel */
+    --blue-mid: #64B5F6; /* Bleu moyen */
+    --blue-dark: #2196F3; /* Bleu foncé pour le texte/boutons */
+    --white: #FFFFFF;
+    --border-radius-xl: 30px;
+}
+
+* {
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Corps de la page (l'arrière-plan ciel dégradé) */
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: linear-gradient(180deg, var(--blue-light) 0%, var(--blue-mid) 100%);
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+}
+
+.app-container {
+    width: 100%;
+    max-width: 1400px;
+    height: 100vh;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- EN-TÊTE (Header) --- */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 10px 0 20px;
+}
+
+.settings-icon svg {
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+/* Logo PNG */
+.logo-image {
+    height: 40px; /* Ajustez la hauteur selon la taille de votre image PNG */
+    width: auto;
+    margin-top: -10px; /* Léger ajustement pour l'alignement visuel */
+}
+
+
+/* --- CONTENEUR PRINCIPAL (Main - Dual Layout) --- */
+main {
+    flex-grow: 1; 
+    display: flex;
+    gap: 30px; /* Espace entre les deux boîtes */
+    align-items: flex-start; /* Aligner les boîtes en haut */
+}
+
+.input-container, .output-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    /* Utilisation de Flexbox pour diviser l'espace: 40% pour l'entrée, 60% pour la sortie */
+}
+
+.input-container {
+    flex: 4; /* Prend 4 parts */
+    align-items: center;
+}
+
+.output-container {
+    flex: 6; /* Prend 6 parts */
+}
+
+/* Style de base des deux grandes boîtes blanches */
+.box-style {
+    background-color: var(--white);
+    padding: 20px;
+    border-radius: var(--border-radius-xl);
+    border: 3px solid var(--white); /* Bords doux */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    height: 550px; /* Hauteur fixe pour les boîtes */
+    position: relative;
+    overflow: hidden;
+}
+
+.text-input-box {
+    border: 3px solid var(--blue-mid); /* Bordure bleue pour l'input */
+}
+
+/* --- TEXTAREA --- */
+textarea {
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    border: none;
+    resize: none;
+    font-size: 16px;
+    color: #333;
+    outline: none;
+    background: transparent;
+}
+
+textarea::placeholder {
+    color: var(--blue-dark);
+    font-size: 20px;
+    font-weight: 600;
+    opacity: 0.8;
+}
+
+/* --- BOUTON IMPORTATION et FORMAT --- */
+.input-actions-group {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 450px;
+    margin-top: 20px;
+}
+
+.import-btn {
+    background: none;
+    border: none;
+    color: var(--blue-dark);
+    padding: 0;
+    margin-right: 30px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    left: -20px; /* Décalage pour le nuage */
+}
+
+/* Le petit nuage du bouton "importer" */
+.cloud-icon {
+    background-color: var(--blue-dark);
+    color: var(--white);
+    padding: 5px 15px 5px 35px;
+    border-radius: 20px;
+    position: relative;
+    left: 25px; /* Décalage pour le nuage */
+    z-index: 1;
+    font-size: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.cloud-icon::before {
+    content: '☁️'; /* Le caractère du nuage ou utiliser une forme CSS plus élaborée */
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 40px;
+    color: var(--blue-dark);
+}
+
+.accepted-format {
+    font-size: 14px;
+    color: var(--blue-dark);
+    margin-left: 20px;
+    font-weight: 600;
+}
+
+/* --- BOUTON GÉNÉRER --- */
+.generate-btn {
+    align-self: flex-start; /* Aligner à gauche dans .input-container */
+    background-color: var(--blue-dark);
+    color: var(--white);
+    padding: 15px 40px;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 15px;
+    margin-left: -20px; /* Pour l'aligner avec le bouton import */
+}
+
+.generate-btn:hover {
+    background-color: #1E88E5; 
+}
+
+/* --- ICÔNE D'AIDE --- */
+.help-icon {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 30px;
+    height: 30px;
+    background-color: var(--white);
+    color: var(--blue-mid);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Media Queries pour la réactivité */
+@media (max-width: 992px) {
+    main {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .input-container, .output-container {
+        width: 90%;
+        height: auto;
+    }
+    
+    .box-style {
+        height: 350px; /* Réduit la hauteur sur les petits écrans */
+    }
+    
+    .input-actions-group, .generate-btn {
+        margin-left: 0;
+        align-self: center; /* Centrer les éléments de contrôle */
+    }
+    
+    .import-btn {
+        left: 0; 
+    }
+
+    .cloud-icon {
+        left: 0; 
+    }
+    
+    .cloud-icon::before {
+        display: none; /* Cache le nuage CSS sur mobile pour un bouton plus simple */
+    }
+}

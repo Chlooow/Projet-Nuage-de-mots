@@ -1,0 +1,20 @@
+Amazon veut doper l’administration états-unienne à l’intelligence artificielle (IA) et entend dépenser des sommes considérables pour y parvenir. Lundi 24 octobre, le géant du cloud a annoncé sa volonté d’investir 50 milliards de dollars (43,4 milliards d’euros) 
+dans une infrastructure informatique dédiée à l’IA et spécialement conçue pour le gouvernement américain et ses agences. 
+Ces centres de calcul devraient voir le jour en 2026, anticipe l’entreprise dans un communiqué de presse, et ajouteront 1,3 gigawatt de capacité énergétique aux infrastructures déjà existantes.
+“Supprimer les barrières technologiques”
+Surtout, le gouvernement américain et ses agences “bénéficieront d’un accès élargi” aux services d’IA d’Amazon Web Services (AWS), poursuit Amazon : 
+“Amazon SageMaker AI pour la formation et la personnalisation de modèles, Amazon Bedrock pour le déploiement de modèles et d’agents, Amazon Nova, Anthropic Claude et les principaux modèles de base à poids ouverts, 
+ainsi que les puces AWS Trainium AI et l’infrastructure NVIDIA AI, ce qui permettra aux agences de développer des solutions d’IA personnalisées, 
+d’optimiser des ensembles de données massifs et d’améliorer la productivité de leur personnel”.
+En somme, le projet est d’augmenter l’administration publique par la technologie. 
+Arguant que “cet investissement supprime les barrières technologiques qui ont freiné le gouvernement”, Matt Garman, 
+le patron d’AWS, estime qu’il permettra aussi “aux agences gouvernementales d’accélérer la découverte et la prise de décision dans le cadre des missions gouvernementales”. 
+Et ce dans des domaines “allant de la sécurité nationale à la recherche scientifique et à l’innovation, en passant par le développement de systèmes autonomes, la cybersécurité, 
+l’innovation énergétique et la recherche dans le domaine de la santé”.
+Une infrastructure qui en complète d’autres
+Ces nouveaux centres de calcul viendront compléter des infrastructures cloud mises en place par Amazon pour le gouvernement américain depuis 2011. 
+Cette année-là, la firme avait lancé AWS GovCloud, avant de lancer trois ans plus tard AWS Top Secret-East, dédiée aux tâches classifiées. 
+Depuis, l’entreprise fondée par Jeff Bezos a lancé en 2017 AWS Secret Region, un fournisseur de cloud certifié pour toutes les classifications de données (“non classifiées, secrètes et top secrètes”) et travaille désormais à l’étendre en mettant l’accent sur l’intelligence artificielle. 
+“Ces nouvelles fonctionnalités seront mises à la disposition des clients actuels et futurs du gouvernement américain dans les régions AWS Top Secret, 
+AWS Secret et GovCloud, renforçant ainsi le leadership américain en matière d’IA et offrant aux agences fédérales l’infrastructure sécurisée et évolutive dont elles ont besoin pour la prochaine ère d’innovation”, a ainsi résumé Amazon. 
+Et la société de préciser, comme pour appuyer les choix de l’administration Trump en matière de technologie, que son investissement “soutient directement les priorités énoncées dans le plan d’action de l’administration en matière d’IA”.
