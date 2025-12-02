@@ -18,14 +18,17 @@ body {
     min-height: 100vh;
     background: linear-gradient(180deg, var(--blue-light) 0%, var(--blue-mid) 100%);
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: stretch;
+    margin-bottom: 40px;
 }
 
 .app-container {
     width: 100%;
     max-width: 1400px;
-    height: 100vh;
+    /* height: 100vh; */
+    flex-grow: 1;
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -39,43 +42,42 @@ header {
     padding: 10px 0 20px;
 }
 
-.settings-icon svg {
-    width: 35px;
-    height: 35px;
+/* Roue dentée */
+.icone-parametres i { /* Ciblage de la balise <i> de Font Awesome */
+    font-size: 35px;
+    color: var(--white);
     cursor: pointer;
     opacity: 0.8;
 }
 
 /* Logo PNG */
 .logo-image {
-    height: 40px; /* Ajustez la hauteur selon la taille de votre image PNG */
+    height: 100px; 
     width: auto;
-    margin-top: -10px; /* Léger ajustement pour l'alignement visuel */
+    margin-top: -30px; 
 }
-
 
 /* --- CONTENEUR PRINCIPAL (Main - Dual Layout) --- */
 main {
     flex-grow: 1; 
     display: flex;
-    gap: 30px; /* Espace entre les deux boîtes */
-    align-items: flex-start; /* Aligner les boîtes en haut */
+    gap: 30px; 
+    align-items: flex-start; 
 }
 
-.input-container, .output-container {
+.conteneur-saisie, .conteneur-resultat {
     display: flex;
     flex-direction: column;
     height: 100%;
-    /* Utilisation de Flexbox pour diviser l'espace: 40% pour l'entrée, 60% pour la sortie */
 }
 
-.input-container {
-    flex: 4; /* Prend 4 parts */
+.conteneur-saisie {
+    flex: 4; 
     align-items: center;
 }
 
-.output-container {
-    flex: 6; /* Prend 6 parts */
+.conteneur-resultat {
+    flex: 6; 
 }
 
 /* Style de base des deux grandes boîtes blanches */
@@ -83,20 +85,20 @@ main {
     background-color: var(--white);
     padding: 20px;
     border-radius: var(--border-radius-xl);
-    border: 3px solid var(--white); /* Bords doux */
+    border: 3px solid var(--white); 
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    height: 550px; /* Hauteur fixe pour les boîtes */
+    width: 95%;
+    height: 300px; 
     position: relative;
     overflow: hidden;
 }
 
-.text-input-box {
+.boite-saisie-texte {
     border: 3px solid var(--blue-mid); /* Bordure bleue pour l'input */
 }
 
-/* --- TEXTAREA --- */
-textarea {
+/* --- TEXTAREA (#saisie-texte) --- */
+#saisie-texte {
     width: 100%;
     height: 100%;
     padding: 10px;
@@ -108,15 +110,15 @@ textarea {
     background: transparent;
 }
 
-textarea::placeholder {
+#saisie-texte::placeholder {
     color: var(--blue-dark);
     font-size: 20px;
     font-weight: 600;
     opacity: 0.8;
 }
 
-/* --- BOUTON IMPORTATION et FORMAT --- */
-.input-actions-group {
+/* --- GROUPE ACTIONS (Importer et Format) --- */
+.groupe-actions-saisie {
     display: flex;
     align-items: center;
     width: 100%;
@@ -124,10 +126,11 @@ textarea::placeholder {
     margin-top: 20px;
 }
 
-.import-btn {
+/* Bouton Importer (.btn-importer) */
+.btn-importer {
     background: none;
     border: none;
-    color: var(--blue-dark);
+    color: white;
     padding: 0;
     margin-right: 30px;
     cursor: pointer;
@@ -136,43 +139,19 @@ textarea::placeholder {
     display: flex;
     align-items: center;
     position: relative;
-    left: -20px; /* Décalage pour le nuage */
+    left: -20px;
 }
 
-/* Le petit nuage du bouton "importer" */
-.cloud-icon {
-    background-color: var(--blue-dark);
-    color: var(--white);
-    padding: 5px 15px 5px 35px;
-    border-radius: 20px;
-    position: relative;
-    left: 25px; /* Décalage pour le nuage */
-    z-index: 1;
-    font-size: 16px;
-    font-weight: 600;
-    text-transform: uppercase;
-}
-
-.cloud-icon::before {
-    content: '☁️'; /* Le caractère du nuage ou utiliser une forme CSS plus élaborée */
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 40px;
-    color: var(--blue-dark);
-}
-
-.accepted-format {
+.format-accepte {
     font-size: 14px;
-    color: var(--blue-dark);
+    color: white;
     margin-left: 20px;
     font-weight: 600;
 }
 
-/* --- BOUTON GÉNÉRER --- */
-.generate-btn {
-    align-self: flex-start; /* Aligner à gauche dans .input-container */
+/* --- BOUTON GÉNÉRER (.btn-generer) --- */
+.btn-generer {
+    align-self: flex-start; 
     background-color: var(--blue-dark);
     color: var(--white);
     padding: 15px 40px;
@@ -184,15 +163,15 @@ textarea::placeholder {
     transition: background-color 0.3s;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     margin-top: 15px;
-    margin-left: -20px; /* Pour l'aligner avec le bouton import */
+    margin-left: -20px; 
 }
 
-.generate-btn:hover {
+.btn-generer:hover {
     background-color: #1E88E5; 
 }
 
-/* --- ICÔNE D'AIDE --- */
-.help-icon {
+/* --- ICÔNE D'AIDE (.icone-aide) --- */
+.icone-aide {
     position: fixed;
     bottom: 20px;
     right: 20px;
@@ -217,29 +196,43 @@ textarea::placeholder {
         align-items: center;
     }
 
-    .input-container, .output-container {
+    .conteneur-saisie, .conteneur-resultat {
         width: 90%;
         height: auto;
     }
     
     .box-style {
-        height: 350px; /* Réduit la hauteur sur les petits écrans */
+        height: 350px; 
     }
     
-    .input-actions-group, .generate-btn {
+    .groupe-actions-saisie, .btn-generer {
         margin-left: 0;
-        align-self: center; /* Centrer les éléments de contrôle */
+        align-self: center; 
     }
     
-    .import-btn {
+    .btn-importer {
         left: 0; 
     }
 
-    .cloud-icon {
+    .icone-nuage {
         left: 0; 
     }
     
-    .cloud-icon::before {
-        display: none; /* Cache le nuage CSS sur mobile pour un bouton plus simple */
+    .icone-nuage::before {
+        display: none; 
     }
+}
+
+footer {
+    /* Positionnement pour coller le footer en bas de la fenêtre */
+    width: 100%; /* S'étend sur toute la largeur */
+    
+    /* Style visuel */
+    background-color: var(--blue-dark); /* Un bleu foncé pour contraster */
+    color: var(--white);
+    text-align: center;
+    padding: 8px 0; /* Marge interne pour la hauteur */
+    font-size: 14px;
+    z-index: 100; /* Assure qu'il est au-dessus des autres éléments */
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
 }

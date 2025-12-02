@@ -8,7 +8,12 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
     <link href="../css/style.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"> </head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"> 
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&display=swap" rel="stylesheet">
+</head>
 
 <body>
     <div class="app-container">
@@ -23,19 +28,19 @@
 
         <main>
             <div class="conteneur-saisie">
+                <!--<h3 class="titre-saisie">Le texte à transformer</h3>-->
                 <div class="boite-saisie-texte box-style">
+                    
                     <textarea id="saisie-texte" placeholder="Entrez votre texte ici" rows="10"></textarea>
                 </div>
+                
+                <input type="file" id="telechargement-fichier" accept=".txt" style="display: none;">
 
                 <div class="groupe-actions-saisie">
-                    <input type="file" id="telechargement-fichier" accept=".txt" style="display: none;">
-                    <button id="btn-importer" class="btn-importer">
-                        <div class="icone-nuage">☁️</div> importer
-                    </button>
-                    <div class="format-accepte">format acceptés : **.txt**</div>
+                    <button id="btn-importer" class="btn btn-primary"> importer </button>
+                    <div class="format-accepte">format acceptés : *.txt</div>
+                    <button class="btn-generer"> ☁️Générer☁️ </button>
                 </div>
-
-                <button class="btn-generer">Générer</button>
             </div>
 
             <div class="conteneur-resultat">
