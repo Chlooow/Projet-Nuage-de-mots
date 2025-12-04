@@ -42,8 +42,9 @@ document.addEventListener('DOMContentLoaded', () => {
         'y', 'en', 'moi', 'toi', 'lui', 'eux', 'leurs', 'leur', 'aussi', 'alors', 
         'mais', 'où', 'ceci', 'cela', 'chaque', 'mille', 'cent', 'ans', 'an', 'jour',
         'va', 'va', 'même', 'même'
-    ]);
+    ]); // a compléter
 
+    // niveau de filtrage
         // Icône aide
         document.querySelector('.icone-aide').addEventListener('click', function() {
             alert('Aide:\n\n1. Entrez votre texte dans la zone de gauche\n2. Ou importez un fichier .txt\n3. Cliquez sur "Générer" pour créer votre nuage de mots');
