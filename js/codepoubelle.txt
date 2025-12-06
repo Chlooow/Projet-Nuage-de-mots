@@ -1,0 +1,483 @@
+// Fichier script
+
+document.addEventListener('DOMContentLoaded', () => {
+    
+    console.log('Application NimbusWords initialisée');
+
+    // les éléments HTML
+    const inputFile = document.getElementById('telechargement-fichier');
+    const btnImporter = document.getElementById('btn-importer');
+    const textarea = document.getElementById('saisie-texte');
+    const btnGenerer = document.querySelector('.btn-generer');
+    const boiteResultat = document.querySelector('.boite-resultat');
+    const iconeParametres = document.querySelector('.icone-parametres');
+    const iconeAide = document.querySelector('.icone-aide');
+
+    // Variable pour stocker les dernières données
+    let dernieresDonnees = null;
+
+    // gerer l'import de fichier.txt
+    btnImporter.addEventListener('click', () => {
+        inputFile.click();
+    });
+
+    inputFile.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+
+        if(file && file.name.endsWith('.txt')) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                textarea.value = e.target.result;
+            };
+            reader.readAsText(file);
+        } else {
+            alert("Veuillez sélectionner un fichier au format .TXT uniquement");
+                textarea.value = "";
+        }
+    });
+
+    // niveau de filtrage
+
+
+    // TODO ---------------------------------
+
+
+
+        // Icône aide
+        document.querySelector('.icone-aide').addEventListener('click', function() {
+            alert('Aide:\n\n1. Entrez votre texte dans la zone de gauche\n2. Ou importez un fichier .txt\n3. Cliquez sur "Générer" pour créer votre nuage de mots');
+        });
+
+        // Icône paramètres
+        document.querySelector('.icone-parametres').addEventListener('click', function() {
+            alert('Paramètres à venir...');
+        });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<?php
+
+// Fichier php pour le traitement Client/Serveur
+
+header('Content-Type: application/json; charset=utf-8');
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: POST, GET');
+header('Access-Control-Allow-Headers: Content-Type');
+
+// Fonction pour charger le .txt de motsvides
+function chargerMotsVides() {
+    //ou se trouve le fichier dans mon architecture
+    $ficher = '../data/utils/motsvides.txt';
+
+    if(!file_exists($fichier)) {
+        return [];
+    }
+
+    $contenu = file_get_contents($fichier);
+    $mots = explode("\n", $contenu);
+    
+    // Nettoyer et normaliser
+    $mots = array_map('trim, $mots');
+    $mots = array_map('mb_strtolover', $mots);
+    $mots = array_filter($mots, function($mot) {
+        return !empty($mot);
+    });
+
+    return array_values($mots);
+}
+
+// fonction pour nettoyer le texte
+function nettoyerTexte($texte) {
+    $texte = mb_strtolower($texte, 'UTF-8');
+
+    // Supprimer les accents
+    $texte = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $texte);
+    if ($texte === false) {
+        $texte = mb_strtolower($texte, 'UTF-8');
+    }
+
+    // Remplacer ponctuation et caractères spéciaux par des espaces
+    $texte = preg_replace('/[^\p{L}\p{N}\s]/u', ' ', $texte);
+
+    // Supprimer les chiffres
+    $texte = preg_replace('/[0-9]+/', ' ', $texte);
+    
+    // Réduire les espaces multiples
+    $texte = preg_replace('/\s+/', ' ', $texte);
+
+    return trim($texte);
+}
+
+// tokenisation
+function tokeniser($texte) {
+    return explode(' ', $texte);
+}
+
+// filtrage des mots
+function filtrerMots($mots, $motsvides, $longueurMin = 3) {
+    return array_filter($mots, function($mot) use ($motsvides, $longueurMin) {
+        return mb_strlen($mot) >= $longueurMin && !in_array($mot, $motsvides);
+    });
+}
+
+function comptOcc($mots){
+    $compteur = [];
+    
+    foreach ($mots as $mot) {
+        if (!isset($compteur[$mot])) {
+            $compteur[$mot] = 0;
+        }
+        $compteur[$mot]++;
+    }
+    
+    // Trier par fréquence décroissante
+    arsort($compteur);
+    
+    return $compteur;
+}
+
+// _____________________________________
+
+// Traitement des requête AJAX
+if($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    echo json_encode([
+        'success' => false,
+        'error' => 'Méthode non autorisée. Utilisez POST.'
+    ]);
+    exit;
+}
+
+// Récupérer le texte (JSON ou FormData)
+$input = file_get_contents('php://input');
+$data = json_decode($input, true);
+
+$texteOriginal = '';
+
+// Si JSON
+if ($data && isset($data['texte'])) {
+    $texteOriginal = $data['texte'];
+}
+// Si FormData
+else if (isset($_POST['texte'])) {
+    $texteOriginal = $_POST['texte'];
+}
+
+if (empty($texteOriginal)) {
+    echo json_encode([
+        'success' => false,
+        'error' => 'Aucun texte fourni'
+    ]);
+    exit;
+}
+
+// traitement du texte
+try {
+    // 1. Charger les mots vides
+    $motsvides = chargerMotsVides();
+    
+    // 2. Nettoyer le texte
+    $texteNettoye = nettoyerTexte($texteOriginal);
+    
+    // 3. Tokeniser
+    $mots = tokeniser($texteNettoye);
+    
+    // 4. Filtrer
+    $motsFiltres = filtrerMots($mots, $motsvides);
+    
+    // 5. Compter
+    $compteur = compterOccurrences($motsFiltres);
+    
+    // 6. Limiter aux 100 premiers
+    $compteur = array_slice($compteur, 0, 100, true);
+    
+    // Statistiques
+    $stats = [
+        'totalMots' => count($mots),
+        'motsUniques' => count(array_unique($mots)),
+        'motsFiltres' => count($motsFiltres),
+        'motsSignificatifs' => count($compteur),
+        'motsVidesRetires' => count($mots) - count($motsFiltres),
+        'nombreMotsVides' => count($motsvides)
+    ];
+
+    // Préparer les données pour wordcloud2.js (format: [[mot, freq], ...])
+    $donneesNuage = [];
+    foreach ($compteur as $mot => $freq) {
+        $donneesNuage[] = [$mot, $freq];
+    }
+    
+    // Validation finale
+    if (count($donneesNuage) === 0) {
+        echo json_encode([
+            'success' => false,
+            'error' => 'Aucun mot significatif trouvé dans le texte',
+            'stats' => $stats
+        ]);
+        exit;
+    }
+
+    // Retourner le résultat
+    echo json_encode([
+        'success' => true,
+        'donnees' => $donneesNuage,
+        'statistiques' => $stats,
+        'message' => 'Analyse terminée avec succès'
+    ], JSON_UNESCAPED_UNICODE);
+    
+} catch (Exception $e) {
+    echo json_encode([
+        'success' => false,
+        'error' => 'Erreur lors du traitement: ' . $e->getMessage()
+    ]);
+}
+
+?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Fichier script
+
+document.addEventListener('DOMContentLoaded', () => {
+    
+    console.log('Application NimbusWords initialisée');
+
+    // les éléments HTML
+    const inputFile = document.getElementById('telechargement-fichier');
+    const btnImporter = document.getElementById('btn-importer');
+    const textarea = document.getElementById('saisie-texte');
+    const btnGenerer = document.querySelector('.btn-generer');
+    const boiteResultat = document.querySelector('.boite-resultat');
+    const iconeParametres = document.querySelector('.icone-parametres');
+    const iconeAide = document.querySelector('.icone-aide');
+
+    // Variable pour stocker les dernières données
+    let dernieresDonnees = null;
+
+    // gestion d'import fichier.txt
+
+    if (btnImporter && inputFile) {
+        btnImporter.addEventListener('click', () => {
+            inputFile.click();
+        });
+        
+        inputFile.addEventListener('change', async (event) => {
+            const file = event.target.files[0];
+            
+            if (!file) return;
+            
+            try {
+                console.log(`Chargement du fichier: ${file.name}`);
+                const texte = await lireFichier(file);
+                textarea.value = texte;
+                afficherSucces(`Fichier "${file.name}" chargé avec succès (${texte.length} caractères)`);
+            } catch (error) {
+                afficherErreur(error.message);
+            }
+        });
+    }
+
+    // generer le nuage de mots
+    if (btnGenerer) {
+        btnGenerer.addEventListener('click', async () => {
+            const texte = textarea.value;
+            const validation = validerTexte(texte);
+            if (!validation.valide) {
+                afficherErreur(validation.message);
+                return;
+            }
+
+            if (!verifierWordCloud()) {
+                return;
+            }
+            console.log(`Envoi de ${validation.nombreMots} mots au serveur pour analyse...`);
+            afficherChargement(true);
+
+            try {
+                const resultat = await analyserTexteServeur(texte);
+                
+                console.log('Réponse du serveur reçue');
+                
+                if (!resultat.donnees || resultat.donnees.length === 0) {
+                    afficherErreur('Aucun mot significatif trouvé dans le texte');
+                    nettoyerResultat();
+                    return;
+                }
+                
+                dernieresDonnees = resultat;
+                
+                afficherStatistiques(resultat.statistiques);
+                
+                genererNuageVisuel(resultat.donnees);
+                
+                afficherSucces('Nuage de mots généré avec succès !');
+                
+            } catch (error) {
+                console.error('Erreur lors de la génération:', error);
+                afficherErreur('Erreur lors de la génération du nuage: ' + error.message);
+                nettoyerResultat();
+            }
+        });
+    }
+
+    // generer le visuelle du nuage
+    function genererNuageVisuel(donneesNuage) {
+        if (!boiteResultat) return;
+        
+        // Créer le canvas
+        boiteResultat.innerHTML = '<canvas id="nuage-canvas"></canvas>';
+        const canvas = document.getElementById('nuage-canvas');
+        
+        if (!canvas) {
+            afficherErreur('Impossible de créer le canvas');
+            return;
+        }
+        
+        // Ajuster la taille du canvas à son conteneur
+        const largeur = boiteResultat.offsetWidth - 60;
+        const hauteur = boiteResultat.offsetHeight - 60;
+        
+        canvas.width = largeur > 0 ? largeur : 600;
+        canvas.height = hauteur > 0 ? hauteur : 400;
+        
+        console.log(`Generation du nuage: ${canvas.width}x${canvas.height}px`);
+        
+        // Configuration de wordcloud2.js
+        try {
+            WordCloud(canvas, {
+                list: donneesNuage,
+                gridSize: 8,
+                weightFactor: function(size) {
+                    return Math.pow(size, 0.7) * canvas.width / 40;
+                },
+                fontFamily: 'Comic Sans MS, Arial, sans-serif',
+                color: function() {
+                    // Palette de couleurs bleues
+                    const couleurs = [
+                        '#00BFFF',  // DeepSkyBlue
+                        '#1E90FF',  // DodgerBlue
+                        '#4169E1',  // RoyalBlue
+                        '#0099CC',  // Blue Ciel
+                        '#5F9EA0',  // CadetBlue
+                        '#4682B4',  // SteelBlue
+                        '#87CEEB',  // SkyBlue
+                        '#4682B4'   // SteelBlue
+                    ];
+                    return couleurs[Math.floor(Math.random() * couleurs.length)];
+                },
+                rotateRatio: 0.3,
+                rotationSteps: 2,
+                backgroundColor: 'white',
+                minSize: 12,
+                drawOutOfBound: false,
+                shrinkToFit: true,
+                hover: function(item) {
+                    if (item) {
+                        canvas.style.cursor = 'pointer';
+                    } else {
+                        canvas.style.cursor = 'default';
+                    }
+                },
+                click: function(item) {
+                    if (item) {
+                        console.log(`Mot cliqué: "${item[0]}" (${item[1]} occurrences)`);
+                    }
+                }
+            });
+            
+            console.log('Nuage de mots affiché');
+            } catch (error) {
+            console.error(' Erreur WordCloud:', error);
+            afficherErreur('Erreur lors de l\'affichage du nuage');
+        }
+    }
+
+// _______________________________________
+
+// les parametres 
+if (iconeParametres) {
+        iconeParametres.addEventListener('click', () => {
+            alert('Parametres\n\nPour modifier la liste des mots vides, éditez le fichier:\ndata/utils/motsvides.txt');
+        });
+    }
+
+// aides
+if (iconeAide) {
+        iconeAide.addEventListener('click', () => {
+            const messageAide = `
+AIDE - NimbusWords
+`.trim();
+            
+            alert(messageAide);
+        });
+    }
+});
+
+
+// redimensionner la fenetre
+
+let resizeTimeout;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            const canvas = document.getElementById('nuage-canvas');
+            if (canvas && dernieresDonnees && dernieresDonnees.donnees) {
+                console.log('Redimensionnement du nuage...');
+                genererNuageVisuel(dernieresDonnees.donnees);
+            }
+        }, 500);
+});
