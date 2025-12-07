@@ -13,6 +13,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const iconeParametres = document.querySelector('.icone-parametres');
     const iconeAide = document.querySelector('.icone-aide');
 
+     const btnExporterNuage = document.getElementById('btn-exporter-nuage');
+    const btnExporterCSV = document.getElementById('btn-exporter-csv');
+    const groupeExport = document.querySelector('.groupe-actions-export');
     
 
     // Definition des variables globales
@@ -79,6 +82,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 afficherStatistiques(resultat.statistiques);
                 genererNuageVisuel(resultat.donnees);
+
+                if (groupeExport) {
+                    groupeExport.style.display = 'flex';
+                }
                 
                 afficherSucces('Nuage de mots généré avec succès !');
                 
@@ -302,8 +309,11 @@ function afficherChargement(enCours) {
 
 function nettoyerResultat() {
      const statsBox = document.getElementById('stats-nuage');
+     const groupeExport = document.querySelector('.groupe-actions-export');
+
      if (window.boiteResultat) window.boiteResultat.innerHTML = '';
      if (statsBox) statsBox.remove();
+     if (groupeExport) groupeExport.style.display = 'none';
 }
 
 function verifierWordCloud() {
