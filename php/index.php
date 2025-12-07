@@ -39,8 +39,13 @@ function nettoyerTexte($texte) {
 
     // Suppression des accents
     // 'été' et 'ete' comme mots différents.
-    $texte = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $texte); 
-    
+    //$texte = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $texte); 
+    // Remplacement des caractères accentués par leurs équivalents sans accent (méthode simple et efficace pour la tokenisation)
+    $texte = str_replace(
+        ['à', 'á', 'â', 'ã', 'ä', 'ç', 'è', 'é', 'ê', 'ë', 'ì', 'í', 'î', 'ï', 'ñ', 'ò', 'ó', 'ô', 'õ', 'ö', 'ù', 'ú', 'û', 'ü', 'ý', 'ÿ', 'æ', 'œ', 'À', 'Á', 'Â', 'Ã', 'Ä', 'Ç', 'È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï', 'Ñ', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö', 'Ù', 'Ú', 'Û', 'Ü', 'Ý'],
+        ['a', 'a', 'a', 'a', 'a', 'c', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i', 'n', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'y', 'y', 'a', 'o', 'A', 'A', 'A', 'A', 'A', 'C', 'E', 'E', 'E', 'E', 'I', 'I', 'I', 'I', 'N', 'O', 'O', 'O', 'O', 'O', 'U', 'U', 'U', 'U', 'Y'],
+        $texte
+    );
     // Remplacer ponctuation et char speciaux par des espaces, sauf les lettres et chiffres
     $texte = preg_replace('/[^\p{L}\p{N}\s]/u', ' ', $texte);
 
@@ -69,6 +74,58 @@ function filtrerMots($mots, $motsvides, $longueurMin = 3) {
         return mb_strlen($mot) >= $longueurMin && !isset($motsvides_map[$mot]);
     });
 }
+
+// fonction qui compte les lignes
+function compteLignes($texte) {
+    if(empty($texte)) {
+        return 0;
+    }
+    $totalLigne = substr_count($texte, "\n") + 1;
+    return $totalLigne;
+}
+
+// calcul de stats avancees (mean, median, ecart-type)
+function calculerStatsFreq(array $compteur) {
+    $frequences = array_values($compteur);
+    $count = count($frequences);
+
+    if ($count === 0) {
+        return [
+            'moyenne' => 0,
+            'mediane' => 0,
+            'ecartType' => 0
+        ];
+    }
+    
+    // Calcul de la Moyenne
+    $sommeFreq = array_sum($frequences);
+    $moyenne = $sommeFreq / $count;
+    
+    // Calcul de la Médiane (nécessite le tri)
+    sort($frequences);
+    $milieu = floor(($count - 1) / 2);
+    
+    if ($count % 2 === 0) {
+        $mediane = ($frequences[$milieu] + $frequences[$milieu + 1]) / 2;
+    } else {
+        $mediane = $frequences[$milieu];
+    }
+    
+    // Calcul de l'Écart-type
+    $variance = 0.0;
+    foreach ($frequences as $freq) {
+        $variance += pow($freq - $moyenne, 2);
+    }
+    $variance /= $count;
+    $ecartType = sqrt($variance);
+    
+    return [
+        'moyenne' => round($moyenne, 2),
+        'mediane' => $mediane,
+        'ecartType' => round($ecartType, 2)
+    ];
+}
+
 // fonction qui compte les occurences
 function compterOccurrences($mots){
     $compteur = [];
@@ -135,18 +192,25 @@ try {
     
     // Compter
     $compteur = compterOccurrences($motsFiltres);
+
+    //stats avancees
+    $statsFreq = calculerStatsFreq($compteur);
     
     // 6. Limiter aux 100 premiers par defaut
     $compteur = array_slice($compteur, 0, 100, true);
     
     // stats pour le client
     $stats = [
+        'nombreLignes' => compteLignes($texteOriginal),
         'totalMots' => count($mots),
         'motsUniques' => count(array_unique($mots)),
         'motsFiltres' => count($motsFiltres),
         'motsSignificatifs' => count($compteur),
         'motsVidesRetires' => count($mots) - count($motsFiltres),
-        'nombreMotsVides' => count($motsvides)
+        'nombreMotsVides' => count($motsvides),
+        'moyenneFreq' => $statsFreq['moyenne'],
+        'medianeFreq' => $statsFreq['mediane'],
+        'ecartTypeFreq' => $statsFreq['ecartType']
     ];
 
     // Preparer les donnees pour wordcloud2.js
