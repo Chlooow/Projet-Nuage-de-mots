@@ -164,7 +164,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // icone de param + icone d'aide
-
     if (iconeParametres) {
         iconeParametres.addEventListener('click', () => {
             alert('Paramètres\n\nPour modifier la liste des mots vides, éditez le fichier:\ndata/utils/motsvides.txt');
@@ -196,7 +195,6 @@ AIDE - NimbusWords
             }
         }, 500);
     });
-});
 
 if(btnExporterNuage) {
     btnExporterNuage.addEventListener('click', telechargerPNG);
@@ -205,6 +203,14 @@ if(btnExporterNuage) {
 if(btnExporterCSV) {
     btnExporterCSV.addEventListener('click', telechargerCSV);
 }
+
+// débugage
+console.log(document.getElementById('btn-exporter-nuage'));
+console.log(document.getElementById('btn-exporter-csv'));
+console.log(dernieresDonnees);
+
+});
+
 
 // _____________________________________________________________________________________
 

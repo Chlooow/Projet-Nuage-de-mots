@@ -136,7 +136,7 @@ function compterOccurrences($mots){
         }
         $compteur[$mot]++;
     }
-    // Trier par fréquence décroissante
+    // Trier par fréquence
     arsort($compteur);
     
     return $compteur;
@@ -196,8 +196,8 @@ try {
     //stats avancees
     $statsFreq = calculerStatsFreq($compteur);
     
-    // 6. Limiter aux 100 premiers par defaut
-    $compteur = array_slice($compteur, 0, 100, true);
+    // Limiter aux n premiers par defaut
+    $compteur = array_slice($compteur, 0, 50, true);
     
     // stats pour le client
     $stats = [
