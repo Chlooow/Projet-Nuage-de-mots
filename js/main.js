@@ -176,9 +176,9 @@ document.addEventListener('DOMContentLoaded', () => {
         iconeAide.addEventListener('click', () => {
             const messageAide = `
                 AIDE - NimbusWords
-                1. Saisissez votre texte ou utilisez le bouton "Importer" pour charger un fichier .txt.
-                2. Cliquez sur "Générer" pour lancer l'analyse côté serveur.
-                3. Le nuage de mots-clés s'affiche, la taille du mot est proportionnelle à sa fréquence.
+1. Saisissez votre texte ou utilisez le bouton "Importer" pour charger un fichier .txt.
+2. Cliquez sur "Générer" pour lancer l'analyse côté serveur.
+3. Le nuage de mots-clés s'affiche, la taille du mot est proportionnelle à sa fréquence.
                 `.trim();
             alert(messageAide);
         });

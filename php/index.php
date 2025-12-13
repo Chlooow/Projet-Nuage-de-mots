@@ -144,7 +144,7 @@ function compterOccurrences($mots){
 
 // _____________________________________
 
-// Traitement des requete AJAX
+// Traitement des requete
 if($_SERVER['REQUEST_METHOD'] !== 'POST') {
     echo json_encode([
         'success' => false,
@@ -196,8 +196,27 @@ try {
     //stats avancees
     $statsFreq = calculerStatsFreq($compteur);
     
-    // Limiter aux n premiers par defaut
-    $compteur = array_slice($compteur, 0, 50, true);
+    // Obtenir le mot le plus fréquent
+    $motMax = key($compteur);
+    $freqMax = reset($compteur);
+
+    // Limiter aux 50 premiers mots
+    $compteurLimite = array_slice($compteur, 0, 50, true);
+
+    // Verifier si le mot le plus fréquent est présent
+    if (!isset($compteurLimite[$motMax])) {
+        array_pop($compteurLimite);
+        // Ajouter le mot le plus fréquent en début
+        $compteurLimite = array_merge([$motMax => $freqMax], $compteurLimite);
+    }
+
+    $compteur = $compteurLimite;
+
+    // Preparer les données pour WordCloud
+    $donneesNuage = [];
+    foreach ($compteur as $mot => $freq) {
+        $donneesNuage[] = [$mot, $freq];
+    }
     
     // stats pour le client
     $stats = [
