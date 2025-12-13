@@ -80,8 +80,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 dernieresDonnees = resultat; // Stocke les donnees pour le redimensionnement
                 
-                afficherStatistiques(resultat.statistiques);
                 genererNuageVisuel(resultat.donnees);
+                afficherStatistiques(resultat.statistiques);
+                
 
                 if (groupeExport) {
                     groupeExport.style.display = 'flex';
@@ -124,25 +125,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 list: donneesNuage,
                 gridSize: 8,
                 weightFactor: function(size) {
-                    return Math.pow(size, 0.7) * canvas.width / 40;
+                    return Math.pow(size, 0.7) * canvas.width / 60;
                 },
                 fontFamily: 'Cherry Bomb One, sans-serif',
+                colorType: 'literal',
                 color: function() {
                     const couleurs = [
-                        '#FF5733', // Rouge-orange
-                        '#33FF57', // Vert vif
-                        '#3357FF', // Bleu électrique
-                        '#FF33CC', // Rose vif
-                        '#FFB833', // Orange
-                        '#8A2BE2', // Bleu-violet
-                        '#7FFF00'  // Chartreuse
+                        '#659aacff',
+                        '#90EE90',
+                        '#FFB6C1',
+                        '#F08080',
+                        '#FFA07A',
+                        '#BA55D3', 
+                        '#afa868ff', 
+                        '#DDA0DD'  
                     ];
-                    return couleurs[Math.floor(Math.random() * couleurs.length)];
+                     return couleurs[Math.floor(Math.random() * couleurs.length)];
                 },
                 rotateRatio: 0.3,
                 rotationSteps: 2,
                 backgroundColor: 'transparent',
-                minSize: 12,
+                minSize: 5,
                 drawOutOfBound: false,
                 shrinkToFit: true,
                 
@@ -172,11 +175,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (iconeAide) {
         iconeAide.addEventListener('click', () => {
             const messageAide = `
-AIDE - NimbusWords
-1. Saisissez votre texte ou utilisez le bouton "Importer" pour charger un fichier .txt.
-2. Cliquez sur "Générer" pour lancer l'analyse côté serveur.
-3. Le nuage de mots-clés s'affiche, la taille du mot est proportionnelle à sa fréquence.
-`.trim();
+                AIDE - NimbusWords
+                1. Saisissez votre texte ou utilisez le bouton "Importer" pour charger un fichier .txt.
+                2. Cliquez sur "Générer" pour lancer l'analyse côté serveur.
+                3. Le nuage de mots-clés s'affiche, la taille du mot est proportionnelle à sa fréquence.
+                `.trim();
             alert(messageAide);
         });
     }
@@ -186,7 +189,9 @@ AIDE - NimbusWords
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimeout);
         resizeTimeout = setTimeout(() => {
+
             const canvas = document.getElementById('nuage-canvas');
+
             if (canvas && dernieresDonnees && dernieresDonnees.donnees) {
                 console.log('Redimensionnement du nuage...');
                 // Appel la fonction pour redessiner le nuage avec les memes donnees
@@ -388,34 +393,6 @@ function telechargerPNG() {
     }
 }
 
-// function afficherStatistiques(stats) {
-//     let statsDiv = document.getElementById('stats-nuage');
-//     if (!statsDiv) {
-//         statsDiv = document.createElement('div');
-//         statsDiv.id = 'stats-nuage';
-//         statsDiv.className = 'stats-box box-style scrollable-stats'; 
-
-//         const conteneurResultat = document.querySelector('.conteneur-resultat');
-//         if (conteneurResultat) conteneurResultat.insertAdjacentElement('afterbegin', statsDiv); 
-//     }
-
-//     statsDiv.innerHTML = `
-//         <h3>Statistiques d'Analyse</h3>
-//         <ul>
-//             <li>Mots Totaux (brut): ${stats.totalMots || 0}</li>
-//             <li>Mots Uniques: ${stats.motsUniques || 0}</li>
-//             <li>Mots Filtrés (nettoyés): ${stats.motsFiltres || 0}</li>
-//             <li>Mots Signifiatifs (dans le nuage): ${stats.motsSignificatifs || 0}</li>
-//         </ul>
-//         <h4>Statistiques de Fréquence</h4>
-//         <ul>
-//             <li>**Moyenne** des fréquences: **${stats.moyenneFreq || 0}**</li>
-//             <li>**Médiane** des fréquences: **${stats.medianeFreq || 0}**</li>
-//             <li>**Écart-type** des fréquences: **${stats.ecartTypeFreq || 0}**</li>
-//         </ul>
-//     `;
-// }
-
 function afficherStatistiques(stats) {
     let statsDiv = document.getElementById('stats-nuage');
     if (!statsDiv) {
@@ -425,6 +402,7 @@ function afficherStatistiques(stats) {
         
         const conteneurResultat = document.querySelector('.conteneur-resultat');
         if (conteneurResultat) conteneurResultat.insertAdjacentElement('beforeend', statsDiv); 
+
     }
 
     const donnees = dernieresDonnees ? dernieresDonnees.donnees : [];
@@ -432,7 +410,7 @@ function afficherStatistiques(stats) {
     let motsListHTML = '';
     if (donnees.length > 0) {
 
-        // Crée la liste ordonnée des mots du nuage (jusqu'à 100)
+        // Crée la liste ordonnée des mots du nuage (jusqu'à 30 mots)
         motsListHTML = '<h4>Top Mots & Fréquences</h4>';
         motsListHTML += '<ol class="top-mots-list">';
         donnees.forEach(([mot, freq]) => {
