@@ -47,7 +47,7 @@ function nettoyerTexte($texte) {
         $texte
     );
     // Remplacer ponctuation et char speciaux par des espaces, sauf les lettres et chiffres
-    $texte = preg_replace('/[^\p{L}\p{N}\s]/u', ' ', $texte);
+    $texte = preg_replace('/[^\p{L}\s]/u', ' ', $texte);
 
     // Supprimer les chiffres ssi pertinent
     $texte = preg_replace('/[0-9]+/', ' ', $texte);

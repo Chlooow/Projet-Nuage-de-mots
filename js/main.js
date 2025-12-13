@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const iconeParametres = document.querySelector('.icone-parametres');
     const iconeAide = document.querySelector('.icone-aide');
 
-     const btnExporterNuage = document.getElementById('btn-exporter-nuage');
+    const btnExporterNuage = document.getElementById('btn-exporter-nuage');
     const btnExporterCSV = document.getElementById('btn-exporter-csv');
     const groupeExport = document.querySelector('.groupe-actions-export');
     
@@ -129,14 +129,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 fontFamily: 'Cherry Bomb One, sans-serif',
                 color: function() {
                     const couleurs = [
-                        '#00BFFF', 
-                        '#1E90FF', 
-                        '#4169E1', 
-                        '#0099CC', 
-                        '#5F9EA0', 
-                        '#4682B4', 
-                        '#87CEEB', 
-                        '#4682B4' 
+                        '#FF5733', // Rouge-orange
+                        '#33FF57', // Vert vif
+                        '#3357FF', // Bleu électrique
+                        '#FF33CC', // Rose vif
+                        '#FFB833', // Orange
+                        '#8A2BE2', // Bleu-violet
+                        '#7FFF00'  // Chartreuse
                     ];
                     return couleurs[Math.floor(Math.random() * couleurs.length)];
                 },
@@ -332,44 +331,33 @@ function verifierWordCloud() {
 
 //exporter les stats et traitement
 function telechargerCSV() {
-    const donnees = dernieresDonnees ? dernieresDonnees.donnees : null;
-
-    if (!donnees || donnees.length === 0) {
-        afficherErreur("Impossible d'exporter : aucune donnée d'analyse disponible.");
-        return;
-    }
-    
     try {
-        // Définir l'en-tête du fichier CSV
-        let csvContent = "Mot;Frequence\n"; // Utilisation du point-virgule (standard francophone)
+        if (!dernieresDonnees || !dernieresDonnees.donnees) {
+            return afficherErreur("Aucune donnée d'analyse disponible pour l'export CSV.");
+        }
         
-        // Ajouter chaque ligne de données
-        donnees.forEach(function(ligne) {
-            let mot = ligne[0];
-            let frequence = ligne[1];
-            // Protéger les mots qui contiennent un point-virgule (rare, mais bonne pratique)
-            if (mot.includes(';')) {
-                mot = `"${mot}"`;
-            }
-            csvContent += `${mot};${frequence}\n`;
+        const donnees = dernieresDonnees.donnees; 
+        let csvContent = "Mot,Frequence\n";
+        
+        // Ajouter les données (Mot, Freq)
+        donnees.forEach(([mot, freq]) => {
+            const motNettoye = mot.replace(/"/g, '""'); 
+            csvContent += `"${motNettoye}",${freq}\n`;
         });
-
-        // Créer le Blob et le lien de téléchargement
+        
         const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
         const url = URL.createObjectURL(blob);
         
         const link = document.createElement('a');
         link.setAttribute('href', url);
-        // Nom du fichier avec la date
-        link.setAttribute('download', `nimbuswords_export_${new Date().toISOString().slice(0, 10)}.csv`);
+        link.setAttribute('download', `nimbuswords_export_stats_${new Date().toISOString().slice(0, 10)}.csv`); 
         
-        // Déclencher le téléchargement
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
         
-        afficherSucces('Fichier CSV téléchargé !');
-
+        afficherSucces('Fichier CSV téléchargé avec succès !');
+        
     } catch (error) {
         console.error('Erreur lors du téléchargement CSV:', error);
         afficherErreur("Erreur lors de l'exportation du CSV.");
@@ -378,23 +366,21 @@ function telechargerCSV() {
 
 // fonction qui telecharge le nuage
 function telechargerPNG() {
-    const canvas = document.getElementById('nuage-canvas');
-    if (!canvas) {
-        afficherErreur("Impossible d'exporter : le nuage n'est pas affiché.");
-        return;
-    }
-
     try {
-        const imageURL = canvas.toDataURL('image/png');
+        const canvas = document.querySelector('.boite-resultat canvas');
+        if (!canvas) {
+            return afficherErreur("Le nuage de mots n'est pas encore généré.");
+        }
+
         const link = document.createElement('a');
-        link.href = imageURL;
-        link.download = `nimbuswords_nuage_${new Date().toISOString().slice(0, 10)}.png`;
+        link.href = canvas.toDataURL('image/png'); // Convertit la toile en PNG Data URL
+        link.setAttribute('download', `nimbuswords_nuage_${new Date().toISOString().slice(0, 10)}.png`); 
         
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
         
-        afficherSucces('Image PNG téléchargée !');
+        afficherSucces('Image PNG téléchargée avec succès !');
         
     } catch (error) {
         console.error('Erreur lors du téléchargement PNG:', error);
@@ -438,7 +424,7 @@ function afficherStatistiques(stats) {
         statsDiv.className = 'stats-box box-style scrollable-stats'; 
         
         const conteneurResultat = document.querySelector('.conteneur-resultat');
-        if (conteneurResultat) conteneurResultat.insertAdjacentElement('afterbegin', statsDiv); 
+        if (conteneurResultat) conteneurResultat.insertAdjacentElement('beforeend', statsDiv); 
     }
 
     const donnees = dernieresDonnees ? dernieresDonnees.donnees : [];
