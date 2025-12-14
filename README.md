@@ -70,4 +70,5 @@ Projet réalisé dans le cadre du Master Informatique et Big Data, option Techno
 - **Bibliothèque externe :** [wordcloud2.js](https://github.com/timdream/wordcloud2.js) pour la génération du nuage de mots
 - **Fichier mots vides :** `data/utils/motsvides.txt`
 
-## Auteur : Chloé Makoundou
+## Auteur : 
+Chloé Makoundou
