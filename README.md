@@ -3,7 +3,6 @@
 
 **Analyse de texte et génération de nuages de mots interactifs**  
 Projet pédagogique UE *Internet et technologies de l’hypermédia* - Master 1  
-Auteur : Chloé Makoundou
 
 Projet réalisé dans le cadre du Master Informatique et Big Data, option Technologies de l'Hypermédia. Application web permettant d'analyser la fréquence des mots dans un texte et de visualiser les résultats sous forme de nuage de mots interactif. L'utilisateur peut saisir directement du texte ou importer un fichier .txt. Le système effectue le nettoyage, la tokenisation et le comptage des occurrences avant de générer une visualisation dynamique. 
 
@@ -48,13 +47,6 @@ Projet réalisé dans le cadre du Master Informatique et Big Data, option Techno
 └── README.md
 ```
 
-## Technologies utilisées
-
-- **Frontend :** HTML5, CSS3, JavaScript, Bootstrap, Font Awesome
-- **Backend :** PHP
-- **Bibliothèque externe :** [wordcloud2.js](https://github.com/timdream/wordcloud2.js) pour la génération du nuage de mots
-- **Fichier mots vides :** `data/utils/motsvides.txt`
-
 ---
 
 ## Installation
@@ -67,4 +59,15 @@ Projet réalisé dans le cadre du Master Informatique et Big Data, option Techno
 
 3. Accéder à `index.html` depuis le navigateur.
 
-4. Saisir un texte ou importer un fichier .txt pour générer le nuage de mots.
+4. Saisir un texte ou importer un fichier `.txt` pour générer le nuage de mots.
+
+---
+
+## Technologies utilisées
+
+- **Frontend :** HTML5, CSS3, JavaScript, Bootstrap, Font-Awesome
+- **Backend :** PHP
+- **Bibliothèque externe :** [wordcloud2.js](https://github.com/timdream/wordcloud2.js) pour la génération du nuage de mots
+- **Fichier mots vides :** `data/utils/motsvides.txt`
+
+## Auteur : Chloé Makoundou
