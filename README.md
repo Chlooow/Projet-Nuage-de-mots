@@ -1,5 +1,18 @@
 # Projet-Nuage-de-mots
 ## NimbusWords
+## Installation
+
+1. Cloner le dépôt :  
+   ```bash
+   git clone https://github.com/ton-compte/NimbusWords.git
+
+2. Placer le projet dans un serveur local compatible PHP (ex. XAMPP, WAMP, MAMP).
+
+3. Accéder à `index.html` depuis le navigateur.
+
+4. Saisir un texte ou importer un fichier `.txt` pour générer le nuage de mots.
+
+> sinon visualisation de la démo vidéo dans le dossier `Rapport_et_screens`
 
 **Analyse de texte et génération de nuages de mots interactifs**  
 Projet pédagogique UE *Internet et technologies de l’hypermédia* - Master 1  
@@ -46,22 +59,6 @@ Projet réalisé dans le cadre du Master Informatique et Big Data, option Techno
 │   └── index.php          # Moteur d'analyse et de calculs (Serveur PHP)
 └── README.md
 ```
-
----
-
-## Installation
-
-1. Cloner le dépôt :  
-   ```bash
-   git clone https://github.com/ton-compte/NimbusWords.git
-
-2. Placer le projet dans un serveur local compatible PHP (ex. XAMPP, WAMP, MAMP).
-
-3. Accéder à `index.html` depuis le navigateur.
-
-4. Saisir un texte ou importer un fichier `.txt` pour générer le nuage de mots.
-
-> sinon visualisation de la démo vidéo dans le dossier `Rapport_et_screens`
 
 ---
 
