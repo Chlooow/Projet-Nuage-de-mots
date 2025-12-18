@@ -61,6 +61,8 @@ Projet réalisé dans le cadre du Master Informatique et Big Data, option Techno
 
 4. Saisir un texte ou importer un fichier `.txt` pour générer le nuage de mots.
 
+> sinon visualisation de la démo vidéo dans le dossier `Rapport_interface`
+
 ---
 
 ## Technologies utilisées
