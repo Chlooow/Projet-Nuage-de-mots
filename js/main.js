@@ -99,7 +99,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // generation du visuel du nuage
-
     function genererNuageVisuel(donneesNuage) {
         if (!boiteResultat) return;
         
@@ -227,7 +226,7 @@ function lireFichier(file) {
         reader.readAsText(file, 'UTF-8');
     });
 }
-
+// fonction qui valide le texte lorsqu'il est dans le champ de saisie
 function validerTexte(texte) {
     const texteNettoye = texte.trim();
     if (texteNettoye.length === 0) {
@@ -240,6 +239,7 @@ function validerTexte(texte) {
     return { valide: true, nombreMots: nombreMots };
 }
 
+// fonction qui envoie le texte au serveur pour analyse
 async function analyserTexteServeur(texte) {
     try {
         const response = await fetch('../php/index.php', {
@@ -280,6 +280,7 @@ function creerOuTrouverMessageContainer() {
     return container;
 }
 
+// afficher les messages de succes ou d'erreur
 function afficherMessage(message, type, duree = 5000) {
     const container = creerOuTrouverMessageContainer();
     container.textContent = message;
@@ -299,14 +300,17 @@ function afficherMessage(message, type, duree = 5000) {
     }, duree);
 }
 
+// fonctions specifiques pour succes et erreur
 function afficherSucces(message) {
     afficherMessage(`${message}`, 'success');
 }
 
+// afficher les erreurs
 function afficherErreur(message) {
     afficherMessage(`${message}`, 'error', 8000);
 }
 
+// afficher l'etat de chargement
 function afficherChargement(enCours) {
     if (window.btnGenerer) {
         window.btnGenerer.disabled = enCours;
@@ -317,6 +321,7 @@ function afficherChargement(enCours) {
     } 
 }
 
+// nettoyer le resultat precedent
 function nettoyerResultat() {
      const statsBox = document.getElementById('stats-nuage');
      const groupeExport = document.querySelector('.groupe-actions-export');
@@ -326,6 +331,7 @@ function nettoyerResultat() {
      if (groupeExport) groupeExport.style.display = 'none';
 }
 
+// verifier que la librairie wordcloud est bien chargee avant de generer le nuage
 function verifierWordCloud() {
     if (typeof WordCloud === 'undefined') {
         afficherErreur('La librairie wordcloud2.js n\'est pas chargée. Vérifiez votre connexion et index.html.');
@@ -392,7 +398,7 @@ function telechargerPNG() {
         afficherErreur("Erreur lors de l'exportation du PNG.");
     }
 }
-
+// afficher les statistiques
 function afficherStatistiques(stats) {
     let statsDiv = document.getElementById('stats-nuage');
     if (!statsDiv) {
@@ -419,6 +425,7 @@ function afficherStatistiques(stats) {
         motsListHTML += '</ol>';
     }
 
+    // Remplit le contenu HTML avec les statistiques
     statsDiv.innerHTML = `
         <h3>Statistiques d'Analyse</h3>
         <ul>

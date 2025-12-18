@@ -1,3 +1,4 @@
+/*des variable de couleurs pour que ce soit plus simple*/
 :root {
     --blue-light: #90CAF9;
     --blue-mid: #64B5F6;
@@ -305,7 +306,7 @@ footer {
     transform: translateY(-2px);
 }
 
-/* Message de statut (feedback) */
+/* Message de statut (feedback) heuristique de nielsen) */
 #message-statut {
     padding: 15px 30px;
     border-radius: 10px;
