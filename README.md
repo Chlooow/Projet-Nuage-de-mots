@@ -69,5 +69,17 @@ Projet réalisé dans le cadre du Master Informatique et Big Data, option Techno
 - **Bibliothèque externe :** [wordcloud2.js](https://github.com/timdream/wordcloud2.js) pour la génération du nuage de mots
 - **Fichier mots vides :** `data/utils/motsvides.txt`
 
+## Demo
+<img width="1898" height="803" alt="nimbuswords" src="https://github.com/user-attachments/assets/ac97bd37-725c-410a-8899-a73268d34745" />
+
+---
+
+
+https://github.com/user-attachments/assets/7d197c2d-918c-449a-b07d-b8e9640b74ff
+
+
+
+
+
 ## Auteur : 
 Chloé Makoundou
